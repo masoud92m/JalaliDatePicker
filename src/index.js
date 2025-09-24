@@ -93,13 +93,19 @@ const jalaliDatepicker = {
         return inputValue;
     },
     get initDate() {
-
-        if(this.options.initDate)
-        {
+        if (this.options.initDate) {
             return this.options.initDate;
         }
         if (this._initDate) {
             return this._initDate;
+        }
+        if (this.input) {
+            const t = this.input.getAttribute("data-jdp-init-date");
+            if (t && /^\d{4}\/\d{2}\/\d{2}$/.test(t)) {
+                const [y, m, d] = t.split("/").map(Number);
+                this._initDate = { year: y, month: m, day: d };
+                return this._initDate;
+            }
         }
         this._initDate = clon(this.input.value) || {};
 
